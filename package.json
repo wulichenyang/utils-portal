@@ -2,7 +2,7 @@
   "private": true,
   "author": "wulichenyang <wulichenyang@163.com>",
   "scripts": {
-    "dev": "max dev",
+    "dev": "PORT=10088 max dev",
     "build": "max build",
     "format": "prettier --cache --write .",
     "prepare": "husky install",
