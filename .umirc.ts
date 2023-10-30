@@ -9,12 +9,6 @@ export default defineConfig({
   layout: {
     title: '@umijs/max',
   },
-  base: `/${process.env.PROJECT_NAME}/`,
-  publicPath:
-    process.env.UMI_ENV === 'production'
-      ? `/${process.env.PROJECT_NAME}/`
-      : '/',
-  favicons: [`/${process.env.PROJECT_NAME}/favicon.ico`],
   routes: [
     {
       path: '/',
