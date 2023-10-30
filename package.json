@@ -3,7 +3,7 @@
   "author": "wulichenyang <wulichenyang@163.com>",
   "scripts": {
     "dev": "PORT=10088 max dev",
-    "build": "max build",
+    "build": "UMI_ENV=production max build",
     "format": "prettier --cache --write .",
     "prepare": "husky install",
     "postinstall": "max setup",

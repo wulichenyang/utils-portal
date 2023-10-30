@@ -9,6 +9,7 @@ export default defineConfig({
   layout: {
     title: '@umijs/max',
   },
+  publicPath: process.env.UMI_ENV === 'production' ? '/utils-portal/' : '/',
   routes: [
     {
       path: '/',
@@ -32,4 +33,3 @@ export default defineConfig({
   ],
   npmClient: 'yarn',
 });
-
