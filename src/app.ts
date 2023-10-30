@@ -14,3 +14,9 @@ export const layout = () => {
     },
   };
 };
+
+export const onRouteChange = ({ location, routes, action }) => {
+  if (location.pathname !== '/404') {
+    sessionStorage.setItem('redirect', location.pathname);
+  }
+};
