@@ -9,6 +9,9 @@ export default defineConfig({
   layout: {
     title: '@umijs/max',
   },
+  define: {
+    PROJECT_NAME: process.env.PROJECT_NAME,
+  },
   routes: [
     {
       path: '/',
