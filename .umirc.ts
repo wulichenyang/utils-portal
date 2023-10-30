@@ -9,7 +9,11 @@ export default defineConfig({
   layout: {
     title: '@umijs/max',
   },
-  publicPath: process.env.UMI_ENV === 'production' ? '/utils-portal/' : '/',
+  publicPath:
+    process.env.UMI_ENV === 'production'
+      ? `/${process.env.PROJECT_NAME}/`
+      : '/',
+  favicons: [`/${process.env.PROJECT_NAME}/favicon.ico`],
   routes: [
     {
       path: '/',
