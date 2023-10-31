@@ -2,8 +2,8 @@
   "private": true,
   "author": "wulichenyang <wulichenyang@163.com>",
   "scripts": {
-    "dev": "UMI_ENV=dev PROJECT_NAME=utils-portal PORT=10088 max dev",
-    "build": "UMI_ENV=production PROJECT_NAME=utils-portal max build",
+    "dev": "cross-env UMI_ENV=dev PROJECT_NAME=utils-portal PORT=10088 max dev",
+    "build": "cross-env UMI_ENV=production PROJECT_NAME=utils-portal max build",
     "format": "prettier --cache --write .",
     "prepare": "husky install",
     "postinstall": "max setup",
@@ -19,9 +19,9 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.200",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
-    "@types/lodash": "^4.17.21",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
