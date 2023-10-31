@@ -28,9 +28,14 @@ export default defineConfig({
       component: './Access',
     },
     {
-      name: ' CRUD 示例',
+      name: 'CRUD 示例',
       path: '/table',
       component: './Table',
+    },
+    {
+      name: 'i18n 转化',
+      path: '/transfer-i18n',
+      component: './TransferI18n',
     },
     {
       path: '*',
