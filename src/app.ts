@@ -7,8 +7,12 @@ export async function getInitialState(): Promise<{ name: string }> {
 }
 
 export const layout = () => {
+  const logoUrl =
+    ENV !== 'dev' && PROJECT_NAME
+      ? `/${PROJECT_NAME}/favicon.ico`
+      : '/favicon.ico';
   return {
-    logo: '/favicon.ico',
+    logo: logoUrl,
     menu: {
       locale: false,
     },
