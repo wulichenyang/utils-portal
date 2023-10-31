@@ -29,7 +29,7 @@ const TransferI18n: React.FC<unknown> = () => {
   const handleSourceObjValidator = (
     _: RuleObject,
     value: StoreValue,
-    callback: (error?: string) => void,
+    // callback: (error?: string) => void,
   ) => {
     let isValid = false;
     try {
@@ -39,14 +39,15 @@ const TransferI18n: React.FC<unknown> = () => {
       isValid = false;
     }
     if (!isValid) {
-      return callback('JSON 格式不正确');
+      return Promise.reject(new Error('JSON 格式不正确'));
     }
-    return callback();
+    return Promise.resolve();
   };
 
   useEffect(() => {
     const { res, len } = getEmptyI18nObj(rawJSONObj);
-    setTargetJSONString(JSON.stringify(res));
+    const targetJSONString = JSON.stringify(res);
+    setTargetJSONString(targetJSONString === '{}' ? '' : targetJSONString);
     setTargetLen(len);
     setNewMsgKeyList(getExcelCol(res));
   }, [rawJSONObj]);
@@ -78,14 +79,15 @@ const TransferI18n: React.FC<unknown> = () => {
           </Form.Item>
           <p>{`新增文案 Length: ${targetLen}`}</p>
           <p>{`新增 Excel 文案 key 列表，复制到 Excel 文件等文案人员翻译： `}</p>
-          <p>
-            {map(newMsgKeyList, (key) => (
-              <>
-                <span style={{ color: 'green' }}>{key}</span>
-                <br></br>
-              </>
+          <div>
+            {map(newMsgKeyList, (key, i) => (
+              <div key={i}>
+                <span key={i} style={{ color: 'green' }}>
+                  {key}
+                </span>
+              </div>
             ))}
-          </p>
+          </div>
         </Form>
       </>
     </PageContainer>
