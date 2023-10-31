@@ -7,7 +7,7 @@ export default defineConfig({
   initialState: {},
   request: {},
   layout: {
-    title: '@umijs/max',
+    title: 'Utils Portal',
   },
   define: {
     PROJECT_NAME: process.env.PROJECT_NAME,
