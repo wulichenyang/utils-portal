@@ -1,5 +1,6 @@
 import { getEmptyI18nObj, getExcelCol } from '@/utils/format';
 import { PageContainer } from '@ant-design/pro-components';
+import { request } from '@umijs/max';
 import { Form, Input } from 'antd';
 import { RuleObject } from 'antd/es/form';
 import { StoreValue } from 'antd/es/form/interface';
@@ -50,6 +51,11 @@ const TransferI18n: React.FC<unknown> = () => {
     setTargetJSONString(targetJSONString === '{}' ? '' : targetJSONString);
     setTargetLen(len);
     setNewMsgKeyList(getExcelCol(res));
+
+    // todo-licy remove test
+    // request('/zhuanlan.zhihu.com/p/647304838').then((res) => {
+    //   console.log(res);
+    // });
   }, [rawJSONObj]);
 
   return (
