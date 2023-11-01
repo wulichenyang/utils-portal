@@ -38,6 +38,11 @@ export default defineConfig({
       component: './TransferI18n',
     },
     {
+      name: 'React 模版',
+      path: '/react-template',
+      component: './ReactTemplate',
+    },
+    {
       path: '*',
       component: './404',
     },
