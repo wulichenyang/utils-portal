@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[647],{67526:function(T,o,n){n.r(o),n.d(o,{default:function(){return v}});var D=n(67294),i=n(20637),F=n(80237),u={"highlight-code-wrapper":"highlight-code-wrapper___dO3KZ"},e=n(85893),d=function(C){var j=C.code,R=i.Z.highlight("tsx",j).value;return(0,e.jsx)("div",{className:u["highlight-code-wrapper"],children:(0,e.jsx)("pre",{children:(0,e.jsx)("code",{dangerouslySetInnerHTML:{__html:R}})})})},s=d,l=`import React from 'react';
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[647],{97695:function(T,o,n){n.r(o),n.d(o,{default:function(){return v}});var D=n(67294),i=n(20637),F=n(80237),u={"highlight-code-wrapper":"highlight-code-wrapper___dO3KZ"},e=n(85893),d=function(C){var j=C.code,R=i.Z.highlight("tsx",j).value;return(0,e.jsx)("div",{className:u["highlight-code-wrapper"],children:(0,e.jsx)("pre",{children:(0,e.jsx)("code",{dangerouslySetInnerHTML:{__html:R}})})})},s=d,l=`import React from 'react';
 
 import styles from './index.less';
 
