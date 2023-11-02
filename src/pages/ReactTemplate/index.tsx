@@ -5,7 +5,7 @@ import {
   reactNewReqHooksTemplateCode,
   reactNewReqPostServiceTemplateCode,
   reactNewTemplateCode,
-} from '@/const';
+} from '@/constants/reactTemplate';
 import { PageContainer } from '@ant-design/pro-components';
 import { Typography } from 'antd';
 
