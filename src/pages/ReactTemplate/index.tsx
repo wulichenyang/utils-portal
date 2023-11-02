@@ -1,7 +1,9 @@
 import HighlightCode from '@/components/HighlightCode';
 import {
   reactNewLessTemplateCode,
+  reactNewReqGetServiceTemplateCode,
   reactNewReqHooksTemplateCode,
+  reactNewReqPostServiceTemplateCode,
   reactNewTemplateCode,
 } from '@/const';
 import { PageContainer } from '@ant-design/pro-components';
@@ -39,6 +41,16 @@ const ReactTemplate: React.FC<unknown> = () => {
         <Title level={2}>React 请求 Hooks</Title>
         <Paragraph>
           <HighlightCode code={reactNewReqHooksTemplateCode} />
+        </Paragraph>
+
+        <Title level={2}>Umi Get Service</Title>
+        <Paragraph>
+          <HighlightCode code={reactNewReqGetServiceTemplateCode} />
+        </Paragraph>
+
+        <Title level={2}>Umi Post Service</Title>
+        <Paragraph>
+          <HighlightCode code={reactNewReqPostServiceTemplateCode} />
         </Paragraph>
       </Typography>
     </PageContainer>
