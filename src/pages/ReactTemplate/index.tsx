@@ -1,5 +1,6 @@
 import HighlightCode from '@/components/HighlightCode';
 import {
+  reactNewLazyComponentTemplateCode,
   reactNewLessTemplateCode,
   reactNewReqGetServiceTemplateCode,
   reactNewReqHooksTemplateCode,
@@ -51,6 +52,11 @@ const ReactTemplate: React.FC<unknown> = () => {
         <Title level={2}>Umi Post Service</Title>
         <Paragraph>
           <HighlightCode code={reactNewReqPostServiceTemplateCode} />
+        </Paragraph>
+
+        <Title level={2}>LazyComponent</Title>
+        <Paragraph>
+          <HighlightCode code={reactNewLazyComponentTemplateCode} />
         </Paragraph>
       </Typography>
     </PageContainer>
