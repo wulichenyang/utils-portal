@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[647],{97695:function(T,o,n){n.r(o),n.d(o,{default:function(){return v}});var D=n(67294),i=n(20637),F=n(80237),u={"highlight-code-wrapper":"highlight-code-wrapper___dO3KZ"},e=n(85893),d=function(C){var j=C.code,R=i.Z.highlight("tsx",j).value;return(0,e.jsx)("div",{className:u["highlight-code-wrapper"],children:(0,e.jsx)("pre",{children:(0,e.jsx)("code",{dangerouslySetInnerHTML:{__html:R}})})})},s=d,l=`import React from 'react';
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[647],{97695:function(y,o,n){n.r(o),n.d(o,{default:function(){return C}});var E=n(67294),i=n(20637),T=n(80237),u={"highlight-code-wrapper":"highlight-code-wrapper___dO3KZ"},e=n(85893),l=function(j){var R=j.code,F=i.Z.highlight("tsx",R).value;return(0,e.jsx)("div",{className:u["highlight-code-wrapper"],children:(0,e.jsx)("pre",{children:(0,e.jsx)("code",{dangerouslySetInnerHTML:{__html:F}})})})},s=l,d=`import React from 'react';
 
 import styles from './index.less';
 
@@ -101,4 +101,20 @@ export const postData = (body: RequestBody) => {
     data: body,
   });
 };
-`,g=n(44520),r=n(46930),t=r.Z.Title,a=r.Z.Paragraph,y=r.Z.Text,x=function(){return(0,e.jsx)(g._z,{header:{title:"React \u6A21\u7248"},children:(0,e.jsxs)(r.Z,{children:[(0,e.jsx)(t,{children:"React \u6A21\u677F"}),(0,e.jsx)(a,{children:"\u7B80\u5355\u68B3\u7406\u4E86\u4E00\u4E9B React \u91CC\u5E38\u89C1\u5F00\u53D1\u4F1A\u7528\u5230\u7684\u6A21\u677F\uFF0C\u5305\u62EC hooks \u548C component \u7B49"}),(0,e.jsx)(t,{level:2,children:"React \u65B0\u51FD\u6570\u7EC4\u4EF6"}),(0,e.jsx)(t,{level:3,children:"TSX \u6A21\u677F"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:l})}),(0,e.jsx)(t,{level:3,children:"less \u6A21\u677F"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:c})}),(0,e.jsx)(t,{level:2,children:"React \u8BF7\u6C42 Hooks"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:p})}),(0,e.jsx)(t,{level:2,children:"Umi Get Service"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:m})}),(0,e.jsx)(t,{level:2,children:"Umi Post Service"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:h})})]})})},v=x}}]);
+`,g=`import { Spin } from 'antd';
+import React, { ReactNode, Suspense } from 'react';
+
+interface LazyComponentProps {
+  visible: boolean;
+  children?: ReactNode;
+}
+
+/**
+ * LazyLoad Wrapper: \u4F20\u5165 lazy import \u7684\u7EC4\u4EF6 \u548C visible \u5C5E\u6027\uFF0C\u4EC5\u5F53 visible \u4E3A true \u65F6\u624D\u52A8\u6001\u52A0\u8F7D lazy import \u7684\u7EC4\u4EF6
+ */
+const LazyComponent: React.FC<LazyComponentProps> = ({ visible, children }) => {
+  return visible ? <Suspense fallback={<Spin />}>{children}</Suspense> : null;
+};
+
+export default LazyComponent;
+`,v=n(44520),r=n(46930),t=r.Z.Title,a=r.Z.Paragraph,D=r.Z.Text,x=function(){return(0,e.jsx)(v._z,{header:{title:"React \u6A21\u7248"},children:(0,e.jsxs)(r.Z,{children:[(0,e.jsx)(t,{children:"React \u6A21\u677F"}),(0,e.jsx)(a,{children:"\u7B80\u5355\u68B3\u7406\u4E86\u4E00\u4E9B React \u91CC\u5E38\u89C1\u5F00\u53D1\u4F1A\u7528\u5230\u7684\u6A21\u677F\uFF0C\u5305\u62EC hooks \u548C component \u7B49"}),(0,e.jsx)(t,{level:2,children:"React \u65B0\u51FD\u6570\u7EC4\u4EF6"}),(0,e.jsx)(t,{level:3,children:"TSX \u6A21\u677F"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:d})}),(0,e.jsx)(t,{level:3,children:"less \u6A21\u677F"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:c})}),(0,e.jsx)(t,{level:2,children:"React \u8BF7\u6C42 Hooks"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:p})}),(0,e.jsx)(t,{level:2,children:"Umi Get Service"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:m})}),(0,e.jsx)(t,{level:2,children:"Umi Post Service"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:h})}),(0,e.jsx)(t,{level:2,children:"LazyComponent"}),(0,e.jsx)(a,{children:(0,e.jsx)(s,{code:g})})]})})},C=x}}]);
