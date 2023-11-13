@@ -24,12 +24,12 @@ const ReactTemplate: React.FC<unknown> = () => {
     }),
     [],
   );
-  const { data } = useGetData(params);
-  const { dataList, runGetDataList } = useGetDataList({});
+  // const { data } = useGetData(params);
+  // const { dataList, runGetDataList } = useGetDataList({});
 
-  useEffect(() => {
-    runGetDataList();
-  }, []);
+  // useEffect(() => {
+  //   runGetDataList();
+  // }, []);
 
   return (
     <PageContainer
