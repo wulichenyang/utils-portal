@@ -6,15 +6,31 @@ import {
   reactNewReqHooksTemplateCode,
   reactNewReqPostServiceTemplateCode,
   reactNewTemplateCode,
+  reactNewUseRequestHooksTemplateCode,
 } from '@/constants/reactTemplate';
+import { useGetData } from '@/hooks/useGetData';
+import { useGetDataList } from '@/hooks/useGetDataList';
 import { PageContainer } from '@ant-design/pro-components';
 import { Typography } from 'antd';
 
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 const { Title, Paragraph, Text } = Typography;
 
 const ReactTemplate: React.FC<unknown> = () => {
+  const params = useMemo(
+    () => ({
+      key: 123,
+    }),
+    [],
+  );
+  const { data } = useGetData(params);
+  const { dataList, runGetDataList } = useGetDataList({});
+
+  useEffect(() => {
+    runGetDataList();
+  }, []);
+
   return (
     <PageContainer
       header={{
@@ -42,6 +58,11 @@ const ReactTemplate: React.FC<unknown> = () => {
         <Title level={2}>React 请求 Hooks</Title>
         <Paragraph>
           <HighlightCode code={reactNewReqHooksTemplateCode} />
+        </Paragraph>
+
+        <Title level={2}>useRequest 请求 Hooks</Title>
+        <Paragraph>
+          <HighlightCode code={reactNewUseRequestHooksTemplateCode} />
         </Paragraph>
 
         <Title level={2}>Umi Get Service</Title>

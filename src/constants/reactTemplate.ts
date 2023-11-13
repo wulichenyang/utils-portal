@@ -55,6 +55,28 @@ export const useGetData = (params: any) => {
   return { data, isLoading };
 };`;
 
+export const reactNewUseRequestHooksTemplateCode = `import { getDataList } from '@/services/getData';
+import { useRequest } from 'ahooks';
+
+/**
+ * 获取 XX 数据
+ */
+export const useGetDataList = (params: any) => {
+  const {
+    data: dataList,
+    loading: isLoading,
+    run: runGetDataList,
+  } = useRequest(getDataList, {
+    manual: true,
+    refreshDeps: [],
+    defaultParams: [{ keyword: 'keyword', type: 'type' }],
+    onSuccess: (res, params) => {},
+    onError: (e, params) => {},
+  });
+
+  return { dataList, isLoading, runGetDataList };
+};`;
+
 export const reactNewReqGetServiceTemplateCode = `import { request } from '@umijs/max';
 // import { request } from '@/utils/request';
 
