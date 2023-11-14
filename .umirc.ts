@@ -43,6 +43,11 @@ export default defineConfig({
       component: './ReactTemplate',
     },
     {
+      name: 'Todo List',
+      path: '/todo-list',
+      component: './TodoList',
+    },
+    {
       path: '*',
       component: './404',
     },

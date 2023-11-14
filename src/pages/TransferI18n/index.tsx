@@ -51,7 +51,6 @@ const TransferI18n: React.FC<unknown> = () => {
     setTargetLen(len);
     setNewMsgKeyList(getExcelCol(res));
 
-    // todo-licy remove test
     // request('/zhuanlan.zhihu.com/p/647304838').then((res) => {
     //   console.log(res);
     // });
