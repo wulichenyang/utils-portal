@@ -1,5 +1,5 @@
 import { useClickAway, useKeyPress, useMemoizedFn } from 'ahooks';
-import { Checkbox, Col, Divider, Form, Input, Row, Typography } from 'antd';
+import { Checkbox, Col, Form, Input, Row, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { debounce } from 'lodash';
 import React, { useRef, useState } from 'react';
@@ -65,18 +65,19 @@ const TodoListItem: React.FC<todoListItemProps> = (
           </div>
         </Col>
         <Col style={{ flex: '1' }}>
-          <Title level={2} onClick={handleOpenEdit}>{`TODO ${index}: ${
-            todoListItem?.title || ''
-          }`}</Title>
-          <Paragraph onClick={handleOpenEdit}>
+          <Title
+            className={styles['title']}
+            level={2}
+            onClick={handleOpenEdit}
+          >{`TODO ${index}: ${todoListItem?.title || ''}`}</Title>
+          <Paragraph className={styles['content']} onClick={handleOpenEdit}>
             {todoListItem?.content || '填写 Todo 内容...'}
           </Paragraph>
         </Col>
       </Row>
-      <Divider />
     </Typography>
   ) : (
-    <div ref={formWrapRef}>
+    <div className={styles['todo-item-wrapper']} ref={formWrapRef}>
       <Form
         form={form}
         initialValues={{

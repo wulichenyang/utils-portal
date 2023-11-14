@@ -1,5 +1,79 @@
 .todo-item-wrapper {
+  /* Todo List Item 全局样式 */
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
   .check-box {
     margin-right: 10px;
+  }
+  /* hover效果，使得光标移过去时，条目稍微上浮并阴影加深，提升视觉体验 */
+  &:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+  /* Title 字段样式 */
+  .title {
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 5px;
+  }
+
+  /* Content 字段样式 */
+  .content {
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 14px;
+    color: #808080;
+  }
+
+  :global {
+    /* 编辑状态下的 Input 样式 - Title */
+    .ant-form-item {
+      margin-bottom: 5px;
+
+      /* Title Input */
+      &:first-child {
+        .ant-input {
+          font-size: 16px;
+          font-weight: bold;
+          color: #000000;
+        }
+      }
+
+      /* Content Input */
+      &:last-child {
+        .ant-input {
+          font-size: 14px;
+          color: #808080;
+        }
+      }
+
+      /* Label样式 */
+      .ant-form-item-label {
+        label {
+          font-family: 'Helvetica', Arial, sans-serif;
+          color: #999999;
+          font-size: 12px;
+          font-weight: bold;
+        }
+      }
+
+      /* Input样式 */
+      .ant-input {
+        border-radius: 5px;
+        border-color: #d9d9d9;
+        transition: all 0.3s;
+
+        /* 当input聚焦时改变边框和阴影颜色 */
+        &:focus {
+          border-color: #40a9ff;
+          box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+      }
+    }
   }
 }
