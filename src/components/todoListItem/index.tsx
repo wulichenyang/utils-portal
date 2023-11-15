@@ -1,3 +1,4 @@
+import { DeleteOutlined } from '@ant-design/icons';
 import { useClickAway, useKeyPress, useMemoizedFn } from 'ahooks';
 import { Checkbox, Col, Form, Input, Row, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -9,6 +10,7 @@ interface todoListItemProps {
   index: number;
   todoListItem: TodoItem;
   onUpdateItem: (todoItem: UpdatedTodoItem) => void;
+  onRemoveItem: (id: string) => void;
 }
 const { Title, Paragraph } = Typography;
 
@@ -18,7 +20,7 @@ const { Title, Paragraph } = Typography;
 const TodoListItem: React.FC<todoListItemProps> = (
   props: todoListItemProps,
 ) => {
-  const { index, todoListItem, onUpdateItem } = props;
+  const { index, todoListItem, onUpdateItem, onRemoveItem } = props;
   const [isEdit, setIsEdit] = useState(false);
 
   const formWrapRef = useRef<HTMLDivElement>(null);
@@ -73,6 +75,13 @@ const TodoListItem: React.FC<todoListItemProps> = (
           <Paragraph className={styles['content']} onClick={handleOpenEdit}>
             {todoListItem?.content || '填写 Todo 内容...'}
           </Paragraph>
+        </Col>
+        {/* 当鼠标悬浮时显示删除图标 */}
+        <Col style={{ flex: 'none' }}>
+          <DeleteOutlined
+            className={styles['delete-icon']}
+            onClick={() => onRemoveItem(todoListItem?.id)}
+          />
         </Col>
       </Row>
     </Typography>

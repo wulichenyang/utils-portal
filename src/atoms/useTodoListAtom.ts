@@ -5,7 +5,7 @@ import { useMemoizedFn } from 'ahooks';
 import localforage from 'localforage';
 import { filter, map } from 'lodash';
 import { useEffect } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 export const todoListAtom = atom<{
   isLoading: boolean;
@@ -18,8 +18,27 @@ export const todoListAtom = atom<{
   },
 });
 
+export const doneTodoListSelector = selector<TodoItem[]>({
+  key: AtomKeyEnum.DONE_TODO_LIST_ATOM_SELECTOR,
+  get: ({ get }) => {
+    const { todoList } = get(todoListAtom);
+    return filter(todoList, (item: TodoItem) => item?.done);
+  },
+});
+
+export const notDoneTodoListSelector = selector<TodoItem[]>({
+  key: AtomKeyEnum.NOT_DONE_TODO_LIST_ATOM_SELECTOR,
+  get: ({ get }) => {
+    const { todoList } = get(todoListAtom);
+    return filter(todoList, (item: TodoItem) => !item?.done);
+  },
+});
+
 export const useTodoListAtom = () => {
   const [{ isLoading, todoList }, setAtomState] = useRecoilState(todoListAtom);
+
+  const doneTodoList = useRecoilValue(doneTodoListSelector);
+  const notDoneTodoList = useRecoilValue(notDoneTodoListSelector);
 
   const saveTodoListToStorage = useMemoizedFn((todoList: TodoItem[]) => {
     localforage.setItem<TodoItem[]>(
@@ -115,6 +134,8 @@ export const useTodoListAtom = () => {
   return {
     isLoading,
     todoList,
+    doneTodoList,
+    notDoneTodoList,
     handleAddTodoItem,
     handleRemoveTodoItem,
     handleUpdateTodoItem,

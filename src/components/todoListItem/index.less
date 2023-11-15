@@ -30,6 +30,30 @@
     color: #808080;
   }
 
+  .delete-icon {
+    display: none;
+    svg {
+      color: #999;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    &:hover {
+      svg {
+        color: #1677ff;
+      }
+    }
+  }
+
+  &:hover {
+    .delete-icon {
+      display: inline-block;
+    }
+  }
+
   :global {
     /* 编辑状态下的 Input 样式 - Title */
     .ant-form-item {
