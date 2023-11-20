@@ -12,7 +12,6 @@ export default defineConfig({
   define: {
     PROJECT_NAME: process.env.PROJECT_NAME,
   },
-  history: { type: 'hash' },
   routes: [
     {
       path: '/',
