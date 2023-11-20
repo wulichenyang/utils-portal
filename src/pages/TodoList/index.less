@@ -1,0 +1,46 @@
+.layout-all-wrapper {
+  height: calc(100vh - 112px);
+  .sider-wrapper {
+    height: 100%;
+    background-color: #fff;
+    overflow-y: auto;
+    .side-menu {
+      //   height: 100%;
+      border-right: 0;
+      .menu-item-container {
+        .menu-item-left-wrapper {
+          flex: 1;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        &:hover {
+          .delete-button {
+            display: inline-block;
+          }
+        }
+        .delete-button {
+          display: none;
+        }
+      }
+    }
+  }
+  .layout-right-wrapper {
+    padding: 0 24px 0;
+    min-height: 100%;
+    .content-wrapper {
+      padding: 24px;
+      margin: 0;
+      min-height: 100%; // 指定Content的高度
+      background-color: #fff;
+      .group-type-radio-group {
+        margin-bottom: 20px;
+      }
+      .todo-list-content-wrapper {
+        height: calc(100% - 50px);
+        overflow-y: auto;
+      }
+    }
+  }
+}

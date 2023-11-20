@@ -13,6 +13,12 @@ declare interface TodoItem {
   content: string;
   done: boolean;
   note: string;
+  categoryId: string;
+}
+
+declare interface CategoryItem {
+  id: string;
+  title: string;
 }
 
 declare interface UpdatedTodoItem extends Partial<TodoItem> {
