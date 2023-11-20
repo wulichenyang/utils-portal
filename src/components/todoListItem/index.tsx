@@ -67,11 +67,10 @@ const TodoListItem: React.FC<todoListItemProps> = (
           </div>
         </Col>
         <Col style={{ flex: '1' }}>
-          <Title
-            className={styles['title']}
-            level={2}
-            onClick={handleOpenEdit}
-          >{`TODO ${index}: ${todoListItem?.title || ''}`}</Title>
+          <Title className={styles['title']} level={2} onClick={handleOpenEdit}>
+            <span>🔖 </span>
+            {`${index}: ${todoListItem?.title || ''}`}
+          </Title>
           <Paragraph className={styles['content']} onClick={handleOpenEdit}>
             {todoListItem?.content || '填写 Todo 内容...'}
           </Paragraph>

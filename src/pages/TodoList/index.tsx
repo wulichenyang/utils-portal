@@ -102,17 +102,6 @@ const TodoList: React.FC<unknown> = () => {
         subTitle: '别让未来的风险影响现在的你',
       }}
       loading={isLoading}
-      extra={[
-        <Button
-          key="add-todo"
-          type="primary"
-          size="large"
-          onClick={() => handleAddTodoItem(categoryInfo?.curCategoryId)}
-        >
-          <PlusOutlined />
-          Add Todo
-        </Button>,
-      ]}
     >
       <Layout className={styles['layout-all-wrapper']}>
         <Sider className={styles['sider-wrapper']} width={200}>
@@ -173,19 +162,34 @@ const TodoList: React.FC<unknown> = () => {
         </Sider>
         <Layout className={styles['layout-right-wrapper']}>
           <Content className={styles['content-wrapper']}>
-            {/* all / todo / done - radio group*/}
-            <Radio.Group
-              className={styles['group-type-radio-group']}
-              onChange={handleGroupChange}
-              value={groupType}
-            >
-              {map(todoTypeEnumList, (todoTypeEnumItem) => (
-                <Radio.Button
-                  key={todoTypeEnumItem?.todoType}
-                  value={todoTypeEnumItem?.todoType}
-                >{`${todoTypeEnumItem?.status} (${todoTypeEnumItem?.count})`}</Radio.Button>
-              ))}
-            </Radio.Group>
+            <Row justify={'space-between'}>
+              <Col>
+                {/* all / todo / done - radio group*/}
+                <Radio.Group
+                  className={styles['group-type-radio-group']}
+                  onChange={handleGroupChange}
+                  value={groupType}
+                >
+                  {map(todoTypeEnumList, (todoTypeEnumItem) => (
+                    <Radio.Button
+                      key={todoTypeEnumItem?.todoType}
+                      value={todoTypeEnumItem?.todoType}
+                    >{`${todoTypeEnumItem?.status} (${todoTypeEnumItem?.count})`}</Radio.Button>
+                  ))}
+                </Radio.Group>
+              </Col>
+              <Col>
+                <Button
+                  key="add-todo"
+                  type="primary"
+                  size="large"
+                  onClick={() => handleAddTodoItem(categoryInfo?.curCategoryId)}
+                >
+                  <PlusOutlined />
+                  Add Todo
+                </Button>
+              </Col>
+            </Row>
 
             {/* Category Title */}
             <CategoryTitle
