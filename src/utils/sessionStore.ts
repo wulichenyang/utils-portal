@@ -13,11 +13,15 @@
 class SessionStore {
   setItem = (key: string, value: any, expiry?: number) => {
     try {
-      const item = {
-        value: JSON.stringify(value),
-        expiry: expiry !== undefined ? new Date().getTime() + expiry : null,
-      };
-      sessionStorage.setItem(key, JSON.stringify(item));
+      if (expiry !== undefined) {
+        const item = {
+          value: JSON.stringify(value),
+          expiry: new Date().getTime() + expiry,
+        };
+        sessionStorage.setItem(key, JSON.stringify(item));
+      } else {
+        sessionStorage.setItem(key, JSON.stringify(value));
+      }
     } catch (e) {
       console.error(`Error storing item ${key} to sessionStorage`, e);
     }
@@ -35,12 +39,12 @@ class SessionStore {
       const item = JSON.parse(itemStr);
       const currentTime = new Date().getTime();
 
-      if (item.expiry && item.expiry < currentTime) {
+      if (item?.expiry && item?.expiry < currentTime) {
         sessionStorage.removeItem(key);
         return defaultResult;
       }
 
-      return JSON.parse(item.value);
+      return item?.expiry ? JSON.parse(item.value) : item;
     } catch (e) {
       console.error(`Error getting item ${key} from sessionStorage`, e);
       return defaultResult;
@@ -76,4 +80,6 @@ class SessionStore {
  * 4. 存储 Date 类型的数据，先手动转化为 number 类型（时间戳）
  *
  */
-export const sessionStore = new SessionStore();
+const sessionStore = new SessionStore();
+
+export default sessionStore;

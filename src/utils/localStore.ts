@@ -13,11 +13,15 @@
 class LocalStore {
   setItem = (key: string, value: any, expiry?: number) => {
     try {
-      const item = {
-        value: JSON.stringify(value),
-        expiry: expiry !== undefined ? new Date().getTime() + expiry : null,
-      };
-      localStorage.setItem(key, JSON.stringify(item));
+      if (expiry !== undefined) {
+        const item = {
+          value: JSON.stringify(value),
+          expiry: new Date().getTime() + expiry,
+        };
+        localStorage.setItem(key, JSON.stringify(item));
+      } else {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
     } catch (e) {
       console.error(`Error storing item ${key} to localStorage`, e);
     }
@@ -35,12 +39,12 @@ class LocalStore {
       const item = JSON.parse(itemStr);
       const currentTime = new Date().getTime();
 
-      if (item.expiry && item.expiry < currentTime) {
+      if (item?.expiry && item?.expiry < currentTime) {
         localStorage.removeItem(key);
         return defaultResult;
       }
 
-      return JSON.parse(item.value);
+      return item?.expiry ? JSON.parse(item.value) : item;
     } catch (e) {
       console.error(`Error getting item ${key} from localStorage`, e);
       return defaultResult;
@@ -76,4 +80,6 @@ class LocalStore {
  * 4. 存储 Date 类型的数据，先手动转化为 number 类型（时间戳）
  *
  */
-export const localStore = new LocalStore();
+const localStore = new LocalStore();
+
+export default localStore;
