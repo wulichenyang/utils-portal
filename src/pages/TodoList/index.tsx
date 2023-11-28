@@ -18,6 +18,7 @@ import { map } from 'lodash';
 import React, { useState } from 'react';
 import CategoryTitle from '../CategoryTitle';
 
+import { useScrollToBottom } from '@/atoms/useScrollToBottom';
 import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import styles from './index.less';
 
@@ -43,6 +44,8 @@ const TodoList: React.FC<unknown> = () => {
   const [groupType, setGroupType] = useState<TodoTypeEnum>(
     TodoTypeEnum.NOT_DONE,
   );
+
+  const { domRef: todoListWrapDomRef, scrollToBottom } = useScrollToBottom();
 
   const curDisplayTodoList = (() => {
     switch (groupType) {
@@ -94,6 +97,11 @@ const TodoList: React.FC<unknown> = () => {
 
   const handleClickMenu = useMemoizedFn((item) => {
     handleClickCategory(item?.key);
+  });
+
+  const handleClickAddTodoItem = useMemoizedFn((curCategoryId: string) => {
+    handleAddTodoItem(curCategoryId);
+    setTimeout(() => scrollToBottom());
   });
 
   return (
@@ -184,7 +192,9 @@ const TodoList: React.FC<unknown> = () => {
                   key="add-todo"
                   type="primary"
                   size="large"
-                  onClick={() => handleAddTodoItem(categoryInfo?.curCategoryId)}
+                  onClick={() =>
+                    handleClickAddTodoItem(categoryInfo?.curCategoryId)
+                  }
                 >
                   <PlusOutlined />
                   Add Todo
@@ -199,7 +209,10 @@ const TodoList: React.FC<unknown> = () => {
             />
 
             {/* Todo List */}
-            <Content className={styles['todo-list-content-wrapper']}>
+            <Content
+              ref={todoListWrapDomRef}
+              className={styles['todo-list-content-wrapper']}
+            >
               {map(
                 curDisplayTodoList,
                 (todoListItem: TodoItem, idx: number) => (
