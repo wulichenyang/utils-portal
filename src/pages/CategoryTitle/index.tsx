@@ -36,7 +36,7 @@ const CategoryTitle: React.FC<CategoryTitleProps> = (
     }, 200),
   );
 
-  const handleBlurEdit = useMemoizedFn(() => {
+  const handleQuiteEdit = useMemoizedFn(() => {
     setIsEditCategoryTitle(false);
   });
 
@@ -44,7 +44,8 @@ const CategoryTitle: React.FC<CategoryTitleProps> = (
     <Input
       ref={categoryTitleInputRef as any}
       value={curActiveCategoryDetail?.title}
-      onBlur={handleBlurEdit}
+      onBlur={handleQuiteEdit}
+      onPressEnter={handleQuiteEdit}
       onChange={handleChangeCategoryTitle}
       style={{ marginBottom: '12px' }}
     />
