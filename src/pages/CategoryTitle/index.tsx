@@ -1,3 +1,4 @@
+import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import { useMemoizedFn } from 'ahooks';
 import { Input } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -49,7 +50,7 @@ const CategoryTitle: React.FC<CategoryTitleProps> = (
     />
   ) : (
     <Title level={3} onClick={handleClickEditCategoryTitle}>
-      {curActiveCategoryDetail?.title || '默认计划'}
+      {curActiveCategoryDetail?.title || DEFAULT_CATEGORY_NAME}
     </Title>
   );
 };

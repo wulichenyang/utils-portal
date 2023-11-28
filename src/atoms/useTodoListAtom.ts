@@ -1,4 +1,8 @@
-import { TODO_CATEGORY_ID_PREFIX, TODO_ID_PREFIX } from '@/constants';
+import {
+  DEFAULT_CATEGORY_NAME,
+  TODO_CATEGORY_ID_PREFIX,
+  TODO_ID_PREFIX,
+} from '@/constants';
 import { AtomKeyEnum } from '@/constants/atomKeys';
 import { LOCAL_FORAGE_KEY_ENUM } from '@/constants/localforage';
 import { useMemoizedFn } from 'ahooks';
@@ -28,7 +32,7 @@ export const todoListAtom = atom<TodoListAtom>({
       categoryList: [
         {
           id: '',
-          title: '默认计划',
+          title: DEFAULT_CATEGORY_NAME,
         },
       ],
     },

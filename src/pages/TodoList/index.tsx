@@ -18,6 +18,7 @@ import { map } from 'lodash';
 import React, { useState } from 'react';
 import CategoryTitle from '../CategoryTitle';
 
+import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import styles from './index.less';
 
 const { Content, Sider } = Layout;
@@ -120,7 +121,7 @@ const TodoList: React.FC<unknown> = () => {
                   className={styles['menu-item-container']}
                 >
                   <Col className={styles['menu-item-left-wrapper']}>
-                    {item?.label}
+                    {item?.label || DEFAULT_CATEGORY_NAME}
                   </Col>
                   <Col>
                     {/* 默认计划 id === ''，这时不能删除 category */}
