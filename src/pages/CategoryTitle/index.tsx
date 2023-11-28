@@ -49,7 +49,7 @@ const CategoryTitle: React.FC<CategoryTitleProps> = (
     />
   ) : (
     <Title level={3} onClick={handleClickEditCategoryTitle}>
-      {curActiveCategoryDetail?.title}
+      {curActiveCategoryDetail?.title || '默认计划'}
     </Title>
   );
 };
