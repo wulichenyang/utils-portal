@@ -1,5 +1,6 @@
 import {
   DEFAULT_CATEGORY_NAME,
+  NEW_CATEGORY_NAME,
   TODO_CATEGORY_ID_PREFIX,
   TODO_ID_PREFIX,
 } from '@/constants';
@@ -204,7 +205,7 @@ export const useTodoListAtom = () => {
         ...(categoryInfo?.categoryList || []),
         {
           id: `${TODO_CATEGORY_ID_PREFIX}${new Date().getTime()}`,
-          title: '新的计划',
+          title: NEW_CATEGORY_NAME,
         },
       ],
     };
