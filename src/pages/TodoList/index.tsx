@@ -18,7 +18,7 @@ import { map } from 'lodash';
 import React, { useState } from 'react';
 import CategoryTitle from '../CategoryTitle';
 
-import { useScrollToBottom } from '@/atoms/useScrollToBottom';
+import { useScrollToBottom } from '@/hooks/useScrollToBottom';
 import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import styles from './index.less';
 
