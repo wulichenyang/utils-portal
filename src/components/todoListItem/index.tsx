@@ -50,57 +50,65 @@ const TodoListItem: React.FC<todoListItemProps> = (
     }
   });
 
-  return !isEdit ? (
-    <Typography className={styles['todo-item-wrapper']}>
-      <Row align={'middle'}>
-        <Col style={{ flex: 'none' }}>
-          <div className={styles['check-box']}>
-            <Checkbox
-              checked={todoListItem?.done}
-              onChange={() =>
-                onUpdateItem({
-                  id: todoListItem?.id,
-                  done: !todoListItem?.done,
-                })
-              }
-            ></Checkbox>
-          </div>
-        </Col>
-        <Col style={{ flex: '1' }}>
-          <Title className={styles['title']} level={2} onClick={handleOpenEdit}>
-            <span>🔖 </span>
-            {`${index}: ${todoListItem?.title || ''}`}
-          </Title>
-          <Paragraph className={styles['content']} onClick={handleOpenEdit}>
-            {todoListItem?.content || '填写 Todo 内容...'}
-          </Paragraph>
-        </Col>
-        {/* 当鼠标悬浮时显示删除图标 */}
-        <Col style={{ flex: 'none' }}>
-          <DeleteOutlined
-            className={styles['delete-icon']}
-            onClick={() => onRemoveItem(todoListItem?.id)}
-          />
-        </Col>
-      </Row>
-    </Typography>
-  ) : (
-    <div className={styles['todo-item-wrapper']} ref={formWrapRef}>
-      <Form
-        form={form}
-        initialValues={{
-          title: todoListItem?.title || '',
-          content: todoListItem?.content || '',
-        }}
-        onValuesChange={handleTodoFormValuesChange}
-      >
-        <Form.Item name={'title'} label={'标题'}>
-          <Input />
-        </Form.Item>
-        <Form.Item name={'content'} label={'内容'}>
-          <Input />
-        </Form.Item>
-      </Form>
+  return (
+    <div className={styles['todo-item-wrapper']}>
+      {!isEdit ? (
+        <Typography>
+          <Row align={'middle'}>
+            <Col style={{ flex: 'none' }}>
+              <div className={styles['check-box']}>
+                <Checkbox
+                  checked={todoListItem?.done}
+                  onChange={() =>
+                    onUpdateItem({
+                      id: todoListItem?.id,
+                      done: !todoListItem?.done,
+                    })
+                  }
+                ></Checkbox>
+              </div>
+            </Col>
+            <Col style={{ flex: '1' }}>
+              <Title
+                className={styles['title']}
+                level={2}
+                onClick={handleOpenEdit}
+              >
+                <span>🔖 </span>
+                {`${index}: ${todoListItem?.title || ''}`}
+              </Title>
+              <Paragraph className={styles['content']} onClick={handleOpenEdit}>
+                {todoListItem?.content || '填写 Todo 内容...'}
+              </Paragraph>
+            </Col>
+            {/* 当鼠标悬浮时显示删除图标 */}
+            <Col style={{ flex: 'none' }}>
+              <DeleteOutlined
+                className={styles['delete-icon']}
+                onClick={() => onRemoveItem(todoListItem?.id)}
+              />
+            </Col>
+          </Row>
+        </Typography>
+      ) : (
+        <div ref={formWrapRef}>
+          <Form
+            form={form}
+            initialValues={{
+              title: todoListItem?.title || '',
+              content: todoListItem?.content || '',
+            }}
+            onValuesChange={handleTodoFormValuesChange}
+          >
+            <Form.Item name={'title'} label={'标题'}>
+              <Input />
+            </Form.Item>
+            <Form.Item name={'content'} label={'内容'}>
+              <Input />
+            </Form.Item>
+          </Form>
+        </div>
+      )}
     </div>
   );
 };

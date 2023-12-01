@@ -1,6 +1,8 @@
 import { useTodoListAtom } from '@/atoms/useTodoListAtom';
 import TodoListItem from '@/components/todoListItem';
+import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import { TodoStatusTextMap, TodoTypeEnum } from '@/constants/todoList';
+import { useScrollToBottom } from '@/hooks/useScrollToBottom';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemoizedFn } from 'ahooks';
@@ -15,11 +17,9 @@ import {
   Row,
 } from 'antd';
 import { map } from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import CategoryTitle from '../CategoryTitle';
-
-import { useScrollToBottom } from '@/hooks/useScrollToBottom';
-import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import styles from './index.less';
 
 const { Content, Sider } = Layout;
@@ -30,38 +30,22 @@ const TodoList: React.FC<unknown> = () => {
     curTodoList,
     doneTodoList,
     notDoneTodoList,
+    curDisplayTodoList,
     categoryInfo,
+    groupType,
     curActiveCategoryDetail,
     handleAddTodoItem,
     handleRemoveTodoItem,
     handleUpdateTodoItem,
+    handleSortTodoItemEnd,
+    handleSetGroupType,
     handleAddCategory,
     handleRemoveCategory,
     handleUpdateCategory,
     handleClickCategory,
   } = useTodoListAtom();
 
-  const [groupType, setGroupType] = useState<TodoTypeEnum>(
-    TodoTypeEnum.NOT_DONE,
-  );
-
   const { domRef: todoListWrapDomRef, scrollToBottom } = useScrollToBottom();
-
-  const curDisplayTodoList = (() => {
-    switch (groupType) {
-      case TodoTypeEnum.ALL:
-        return curTodoList;
-
-      case TodoTypeEnum.DONE:
-        return doneTodoList;
-
-      case TodoTypeEnum.NOT_DONE:
-        return notDoneTodoList;
-
-      default:
-        return [];
-    }
-  })();
 
   const todoTypeEnumList = [
     {
@@ -92,7 +76,7 @@ const TodoList: React.FC<unknown> = () => {
   );
 
   const handleGroupChange = useMemoizedFn((e) => {
-    setGroupType(e?.target?.value);
+    handleSetGroupType(e?.target?.value);
   });
 
   const handleClickMenu = useMemoizedFn((item) => {
@@ -103,6 +87,35 @@ const TodoList: React.FC<unknown> = () => {
     handleAddTodoItem(curCategoryId);
     setTimeout(() => scrollToBottom());
   });
+
+  const SortableTodoItem = SortableElement<{ value: TodoItem; idx: number }>(
+    ({ value, idx }: { value: TodoItem; idx: number }) => (
+      <TodoListItem
+        key={value?.id}
+        index={idx + 1}
+        todoListItem={value}
+        onUpdateItem={handleUpdateTodoItem}
+        onRemoveItem={handleRemoveTodoItem}
+      />
+    ),
+  );
+
+  const SortableTodoList = SortableContainer<{ items: TodoItem[] }>(
+    ({ items }: { items: TodoItem[] }) => {
+      return (
+        <div>
+          {map(items, (todoListItem, idx) => (
+            <SortableTodoItem
+              key={`item-${todoListItem?.id}`}
+              index={idx}
+              value={todoListItem}
+              idx={idx}
+            />
+          ))}
+        </div>
+      );
+    },
+  );
 
   return (
     <PageContainer
@@ -213,18 +226,14 @@ const TodoList: React.FC<unknown> = () => {
               ref={todoListWrapDomRef}
               className={styles['todo-list-content-wrapper']}
             >
-              {map(
-                curDisplayTodoList,
-                (todoListItem: TodoItem, idx: number) => (
-                  <TodoListItem
-                    key={todoListItem?.id}
-                    index={idx + 1}
-                    todoListItem={todoListItem}
-                    onUpdateItem={handleUpdateTodoItem}
-                    onRemoveItem={handleRemoveTodoItem}
-                  />
-                ),
-              )}
+              <SortableTodoList
+                items={curDisplayTodoList}
+                onSortEnd={handleSortTodoItemEnd}
+                distance={1}
+                lockAxis="y"
+                lockToContainerEdges={true}
+                lockOffset="0%"
+              />
             </Content>
           </Content>
         </Layout>

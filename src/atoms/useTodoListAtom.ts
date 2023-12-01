@@ -6,10 +6,12 @@ import {
 } from '@/constants';
 import { AtomKeyEnum } from '@/constants/atomKeys';
 import { LOCAL_FORAGE_KEY_ENUM } from '@/constants/localforage';
+import { TodoTypeEnum } from '@/constants/todoList';
+import { arrayMove } from '@/utils/arrayMove';
 import { useMemoizedFn } from 'ahooks';
 import localforage from 'localforage';
 import { filter, find, findIndex, map } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 interface CategoryInfo {
@@ -21,6 +23,7 @@ interface TodoListAtom {
   isLoading: boolean;
   todoList: TodoItem[];
   categoryInfo: CategoryInfo;
+  groupType: TodoTypeEnum;
 }
 
 export const todoListAtom = atom<TodoListAtom>({
@@ -37,6 +40,7 @@ export const todoListAtom = atom<TodoListAtom>({
         },
       ],
     },
+    groupType: TodoTypeEnum.NOT_DONE,
   },
 });
 
@@ -92,12 +96,31 @@ export const curActiveCategoryDetailSelector = selector<CategoryItem>({
 });
 
 export const useTodoListAtom = () => {
-  const [{ isLoading, todoList, categoryInfo }, setAtomState] =
+  const [{ isLoading, todoList, categoryInfo, groupType }, setAtomState] =
     useRecoilState(todoListAtom);
 
   const doneTodoList = useRecoilValue(doneTodoListSelector);
   const notDoneTodoList = useRecoilValue(notDoneTodoListSelector);
   const curTodoList = useRecoilValue(curTodoListSelector);
+
+  const curDisplayTodoList = useMemo(() => {
+    return (() => {
+      switch (groupType) {
+        case TodoTypeEnum.ALL:
+          return curTodoList;
+
+        case TodoTypeEnum.DONE:
+          return doneTodoList;
+
+        case TodoTypeEnum.NOT_DONE:
+          return notDoneTodoList;
+
+        default:
+          return [];
+      }
+    })();
+  }, [groupType, curTodoList, doneTodoList, notDoneTodoList]);
+
   const curActiveCategoryDetail = useRecoilValue(
     curActiveCategoryDetailSelector,
   );
@@ -310,6 +333,13 @@ export const useTodoListAtom = () => {
     saveCategoryInfoToStorage(newCategoryInfo);
   });
 
+  const handleSetGroupType = useMemoizedFn((groupType: TodoTypeEnum) => {
+    setAtomState((prevState) => ({
+      ...prevState,
+      groupType,
+    }));
+  });
+
   // 从 Storage 读取初始化数据
   useEffect(() => {
     setAtomState((prevState) => ({
@@ -349,17 +379,50 @@ export const useTodoListAtom = () => {
     });
   }, []);
 
+  const handleSortTodoItemEnd = ({
+    oldIndex,
+    newIndex,
+  }: {
+    oldIndex: number;
+    newIndex: number;
+  }) => {
+    const oldId = curDisplayTodoList[oldIndex]?.id;
+    const newId = curDisplayTodoList[newIndex]?.id;
+    const oldIdxInAll = findIndex(
+      todoList,
+      (todoItem) => todoItem?.id === oldId,
+    );
+    const newIdxInAll = findIndex(
+      todoList,
+      (todoItem) => todoItem?.id === newId,
+    );
+    const sortedTodoList = arrayMove(todoList, oldIdxInAll, newIdxInAll);
+
+    // 删除 atom 数据
+    setAtomState((prevState) => ({
+      ...prevState,
+      todoList: sortedTodoList,
+    }));
+
+    // 持久存储到 Storage
+    saveTodoListToStorage(sortedTodoList);
+  };
+
   return {
     isLoading,
     todoList,
     curTodoList,
     doneTodoList,
     notDoneTodoList,
+    groupType,
+    curDisplayTodoList,
     categoryInfo,
     curActiveCategoryDetail,
+    handleSetGroupType,
     handleAddTodoItem,
     handleRemoveTodoItem,
     handleUpdateTodoItem,
+    handleSortTodoItemEnd,
     handleAddCategory,
     handleRemoveCategory,
     handleUpdateCategory,
