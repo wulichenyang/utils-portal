@@ -13,7 +13,7 @@ interface todoListItemProps {
   onRemoveItem: (id: string) => void;
 }
 const { Title, Paragraph } = Typography;
-
+const { TextArea } = Input;
 /**
  * todo list 的 item 组件，支持编辑和预览
  */
@@ -22,13 +22,33 @@ const TodoListItem: React.FC<todoListItemProps> = (
 ) => {
   const { index, todoListItem, onUpdateItem, onRemoveItem } = props;
   const [isEdit, setIsEdit] = useState(false);
-
-  const formWrapRef = useRef<HTMLDivElement>(null);
   const [form] = useForm();
 
-  const handleOpenEdit = () => {
-    setTimeout(() => setIsEdit(true));
-  };
+  const formWrapRef = useRef<HTMLDivElement>(null);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const contentTextAreaRef = useRef<HTMLInputElement>(null);
+
+  const handleOpenEdit = useMemoizedFn((callback: () => void) => {
+    setTimeout(() => {
+      setIsEdit(true);
+      callback();
+    });
+  });
+
+  const handleClickTitle = useMemoizedFn(() => {
+    handleOpenEdit(() => setTimeout(() => titleInputRef?.current?.focus()));
+  });
+
+  const handleClickContent = useMemoizedFn(() => {
+    handleOpenEdit(() =>
+      setTimeout(() => {
+        contentTextAreaRef?.current?.focus();
+        (
+          contentTextAreaRef?.current as any
+        )?.resizableTextArea?.textArea?.setSelectionRange(-1, -1);
+      }),
+    );
+  });
 
   const handleClickAway = useMemoizedFn(() => {
     if (isEdit) {
@@ -36,11 +56,10 @@ const TodoListItem: React.FC<todoListItemProps> = (
     }
   });
 
-  const handleTodoFormValuesChange = debounce(
-    (changedValues: any, values: any) => {
+  const handleTodoFormValuesChange = useMemoizedFn(
+    debounce((changedValues: any, __values: any) => {
       onUpdateItem({ id: todoListItem?.id, ...changedValues });
-    },
-    200,
+    }, 200),
   );
 
   useClickAway(handleClickAway, formWrapRef);
@@ -72,12 +91,15 @@ const TodoListItem: React.FC<todoListItemProps> = (
               <Title
                 className={styles['title']}
                 level={2}
-                onClick={handleOpenEdit}
+                onClick={handleClickTitle}
               >
                 <span>🔖 </span>
                 {`${index}: ${todoListItem?.title || ''}`}
               </Title>
-              <Paragraph className={styles['content']} onClick={handleOpenEdit}>
+              <Paragraph
+                className={styles['content']}
+                onClick={handleClickContent}
+              >
                 {todoListItem?.content || '填写 Todo 内容...'}
               </Paragraph>
             </Col>
@@ -101,10 +123,10 @@ const TodoListItem: React.FC<todoListItemProps> = (
             onValuesChange={handleTodoFormValuesChange}
           >
             <Form.Item name={'title'} label={'标题'}>
-              <Input />
+              <Input ref={titleInputRef as any} bordered={false} />
             </Form.Item>
             <Form.Item name={'content'} label={'内容'}>
-              <Input />
+              <TextArea ref={contentTextAreaRef as any} bordered={false} />
             </Form.Item>
           </Form>
         </div>
