@@ -2,8 +2,8 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { useClickAway, useKeyPress, useMemoizedFn } from 'ahooks';
 import { Checkbox, Col, Form, Input, Row, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { debounce } from 'lodash';
-import React, { memo, useRef, useState } from 'react';
+import { debounce, map, split } from 'lodash';
+import React, { memo, useMemo, useRef, useState } from 'react';
 import styles from './index.less';
 
 interface todoListItemProps {
@@ -27,6 +27,16 @@ const TodoListItem: React.FC<todoListItemProps> = (
   const formWrapRef = useRef<HTMLDivElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const contentTextAreaRef = useRef<HTMLInputElement>(null);
+
+  const todoContent = useMemo(
+    () =>
+      todoListItem?.content?.trim()
+        ? map(split(todoListItem?.content, '\n'), (paragraph, i) => (
+            <div key={i}>{paragraph}</div>
+          ))
+        : '填写 Todo 内容...',
+    [todoListItem?.content],
+  );
 
   const handleOpenEdit = useMemoizedFn((callback: () => void) => {
     setTimeout(() => {
@@ -62,12 +72,17 @@ const TodoListItem: React.FC<todoListItemProps> = (
     }, 200),
   );
 
-  useClickAway(handleClickAway, formWrapRef);
-  useKeyPress(['enter', 'esc'], () => {
+  const handleKeyPressSave = useMemoizedFn((event) => {
+    if (event.shiftKey) {
+      return;
+    }
     if (isEdit) {
       setIsEdit(false);
     }
   });
+
+  useClickAway(handleClickAway, formWrapRef);
+  useKeyPress(['enter', 'esc'], handleKeyPressSave);
 
   return (
     <div className={styles['todo-item-wrapper']}>
@@ -100,7 +115,7 @@ const TodoListItem: React.FC<todoListItemProps> = (
                 className={styles['content']}
                 onClick={handleClickContent}
               >
-                {todoListItem?.content || '填写 Todo 内容...'}
+                {todoContent}
               </Paragraph>
             </Col>
             {/* 当鼠标悬浮时显示删除图标 */}
