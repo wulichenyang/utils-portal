@@ -1,6 +1,6 @@
-import React from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
+import React, { memo } from 'react';
 
 import styles from './index.less';
 
@@ -26,4 +26,4 @@ const HighlightCode: React.FC<HighlightCodeProps> = (
   );
 };
 
-export default HighlightCode;
+export default memo(HighlightCode);

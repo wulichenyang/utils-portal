@@ -1,5 +1,5 @@
 import { useTodoListAtom } from '@/atoms/useTodoListAtom';
-import TodoListItem from '@/components/todoListItem';
+
 import { DEFAULT_CATEGORY_NAME } from '@/constants';
 import { TodoStatusTextMap, TodoTypeEnum } from '@/constants/todoList';
 import { useScrollToBottom } from '@/hooks/useScrollToBottom';
@@ -18,7 +18,8 @@ import {
 } from 'antd';
 import { map } from 'lodash';
 import React from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+
+import SortableTodoList from '@/components/SortableTodoList';
 import CategoryTitle from '../CategoryTitle';
 import styles from './index.less';
 
@@ -87,35 +88,6 @@ const TodoList: React.FC<unknown> = () => {
     handleAddTodoItem(curCategoryId);
     setTimeout(() => scrollToBottom());
   });
-
-  const SortableTodoItem = SortableElement<{ value: TodoItem; idx: number }>(
-    ({ value, idx }: { value: TodoItem; idx: number }) => (
-      <TodoListItem
-        key={value?.id}
-        index={idx + 1}
-        todoListItem={value}
-        onUpdateItem={handleUpdateTodoItem}
-        onRemoveItem={handleRemoveTodoItem}
-      />
-    ),
-  );
-
-  const SortableTodoList = SortableContainer<{ items: TodoItem[] }>(
-    ({ items }: { items: TodoItem[] }) => {
-      return (
-        <div>
-          {map(items, (todoListItem, idx) => (
-            <SortableTodoItem
-              key={`item-${todoListItem?.id}`}
-              index={idx}
-              value={todoListItem}
-              idx={idx}
-            />
-          ))}
-        </div>
-      );
-    },
-  );
 
   return (
     <PageContainer
@@ -221,18 +193,20 @@ const TodoList: React.FC<unknown> = () => {
               onUpdateCategory={handleUpdateCategory}
             />
 
-            {/* Todo List */}
+            {/* Sortable Todo List */}
             <Content
               ref={todoListWrapDomRef}
               className={styles['todo-list-content-wrapper']}
             >
               <SortableTodoList
                 items={curDisplayTodoList}
-                onSortEnd={handleSortTodoItemEnd}
                 distance={1}
                 lockAxis="y"
                 lockToContainerEdges={true}
                 lockOffset="0%"
+                onSortEnd={handleSortTodoItemEnd}
+                onRemoveItem={handleRemoveTodoItem}
+                onUpdateItem={handleUpdateTodoItem}
               />
             </Content>
           </Content>

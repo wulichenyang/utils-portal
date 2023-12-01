@@ -3,7 +3,7 @@ import { useClickAway, useKeyPress, useMemoizedFn } from 'ahooks';
 import { Checkbox, Col, Form, Input, Row, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { debounce } from 'lodash';
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import styles from './index.less';
 
 interface todoListItemProps {
@@ -113,4 +113,4 @@ const TodoListItem: React.FC<todoListItemProps> = (
   );
 };
 
-export default TodoListItem;
+export default memo(TodoListItem);
