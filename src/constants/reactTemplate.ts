@@ -39,7 +39,9 @@ export const useGetData = (params: any) => {
 
     getData(params)
       .then((res) => {
-        setData(res.data);
+        if (res) {
+          setData(res?.data);
+        }
       })
       .finally(() => {
         setLoading(false);
