@@ -1,0 +1,392 @@
+// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+// Placeholders with the same ids are connected.
+// Example:
+// {
+//   "Print to console": {
+//     "scope": "javascript,typescript",
+//     "prefix": "log",
+//     "body": [
+//       "console.log('$1');",
+//       "$2"
+//     ],
+//     "description": "Log output to console"
+//   }
+// }
+
+{
+  "React Component Template": {
+    "prefix": "fc",
+    "body": [
+      "import React, { memo } from 'react';",
+      "import styles from './index.less';",
+      "",
+      "interface ${1:Component}Props {",
+      "  ${3:name}: ${4:string};",
+      "}",
+      "",
+      "/**",
+      " * ${5:组件描述}",
+      " */",
+      "const $1: React.FC<$1Props> = (props: $1Props) => {",
+      "  const { $3 } = props;",
+      "",
+      "  return <div className={styles['${1/([A-Z][a-z]+)/${1:/downcase}-/g}$0wrapper']}></div>;",
+      "};",
+      "",
+      "export default memo($1);",
+      ""
+    ],
+    "description": "Create a new React component with typescript",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "LESS Component Template": {
+    "prefix": "ls",
+    "body": [".${1:component}-wrapper {", "  ", "}", ""],
+    "description": "Create a new LESS component",
+    "scope": "less"
+  },
+  "Custom Hook Template": {
+    "prefix": "hook",
+    "body": [
+      "import { ${1:getData} } from '@/services/getData';",
+      "import { useMemoizedFn } from 'ahooks';",
+      "import { useEffect, useState } from 'react';",
+      "",
+      "/**",
+      " * ${2:获取 XX 数据}",
+      " */",
+      "export const use${1/(.*)/${1:/capitalize}/} = (${7:params}: ${8:any}) => {",
+      "  const [${3:data}, set${3/(.*)/${1:/capitalize}/}] = useState<${4:any}>(${5:null});",
+      "  const [isLoading, setLoading] = useState<boolean>(false);",
+      "",
+      "  const handle${1/(.*)/${1:/capitalize}/} = useMemoizedFn(() => {",
+      "    setLoading(true);",
+      "",
+      "    $1($7)",
+      "      .then((res) => {",
+      "        if (res) {",
+      "          set${3/(.*)/${1:/capitalize}/}(res?.data);",
+      "        }",
+      "      })",
+      "      .finally(() => {",
+      "        setLoading(false);",
+      "      });",
+      "  });",
+      "",
+      "  useEffect(() => {",
+      "    if ($7) {",
+      "      handle${1/(.*)/${1:/capitalize}/}();",
+      "    }",
+      "  }, [$7]);",
+      "",
+      "  return { $3, isLoading };",
+      "};",
+      ""
+    ],
+    "description": "Create a new custom hook",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "UseRequest Hook Template": {
+    "prefix": "useReq",
+    "body": [
+      "import { getDataList } from '@/services/getData';",
+      "import { useRequest } from 'ahooks';",
+      "",
+      "/**",
+      " * 获取 XX 数据",
+      " */",
+      "export const use${1:GetDataList} = (params: any) => {",
+      "  const {",
+      "    data: dataList,",
+      "    loading: isLoading,",
+      "    run: run${1:GetDataList},",
+      "  } = useRequest(getDataList, {",
+      "    manual: true,",
+      "    refreshDeps: [],",
+      "    defaultParams: [{ keyword: 'keyword', type: 'type' }],",
+      "    onSuccess: (res, params) => {},",
+      "    onError: (e, params) => {},",
+      "  });",
+      "",
+      "  return { dataList, isLoading, run${1:GetDataList} };",
+      "};",
+      ""
+    ],
+    "description": "Create a new useRequest hook",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Handle Event Fn": {
+    "prefix": "handle",
+    "body": [
+      "",
+      "const handle${1:Event} = useMemoizedFn(() => {",
+      "  ",
+      "});",
+      ""
+    ],
+    "description": "Create a new handleEvent Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Lodash Map Fn": {
+    "prefix": "map",
+    "body": ["map(${1:data}List, (${1}) => ${2:second});"],
+    "description": "Create a Lodash Map Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Lodash Find Fn": {
+    "prefix": "find",
+    "body": ["find(${1:data}List, (${1}) => ${1}?.${2:key} === ${3:value});"],
+    "description": "Create a Lodash Find Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Lodash Some Fn": {
+    "prefix": "some",
+    "body": ["some(${1:data}List, (${1}) => ${1}?.${2:key} === ${3:value});"],
+    "description": "Create a Lodash Some Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Lodash Filter Fn": {
+    "prefix": "filter",
+    "body": ["filter(${1:data}List, (${1}) => ${1}?.${2:key} === ${3:value});"],
+    "description": "Create a Lodash Filter Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Lodash Size Fn": {
+    "prefix": "size",
+    "body": ["size(${1:data}List) > 0"],
+    "description": "Create a Lodash Size Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Format Util Fn": {
+    "prefix": "format",
+    "body": [
+      "",
+      "export const format${1:Sth} = (${2:params}: ${3:string}) => {",
+      "  ",
+      "};",
+      ""
+    ],
+    "description": "Create a new format util Fn",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Get Data Service": {
+    "prefix": "getData",
+    "body": [
+      "",
+      "export const get${1:Data} = (${2:param}: ${3:string}) => {",
+      "  return request.get<${4:{\\}}>(${5:``}, {",
+      "    params: ${6:{\\}},",
+      "    ${7:errorHandler},",
+      "  });",
+      "};",
+      ""
+    ],
+    "description": "Create a get data service",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Post Data Service": {
+    "prefix": "postData",
+    "body": [
+      "",
+      "export const post${1:Data} = (body: ${2:{\\}}) => {",
+      "  return request.post<${3:{\\}}>(${4:``}, {",
+      "    data: ${5:{\\}},",
+      "  });",
+      "};",
+      ""
+    ],
+    "description": "Create a post data service",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "useBoolean": {
+    "prefix": "useBoolean",
+    "body": [
+      "",
+      "const [",
+      "  is${1:Show},",
+      "  { setTrue: handleSetIs$1True, setFalse: handleSetIs$1False },",
+      "] = useBoolean(false);",
+      ""
+    ],
+    "description": "create useBoolean from ahooks",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "formatMessage": {
+    "prefix": "i18n",
+    "body": ["formatMessage({ id: '${1:}' })"],
+    "description": "create formatMessage wrapper",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "useFormatMessage": {
+    "prefix": "useI18n",
+    "body": [
+      "",
+      "import { useIntl } from 'react-intl';",
+      "const { formatMessage } = useIntl();",
+      ""
+    ],
+    "description": "create useFormatMessage",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "RowAndCol": {
+    "prefix": "<Row",
+    "body": [
+      "<Row",
+      "  className={styles['${1:component}-wrapper']}",
+      "  gutter={[${2:20}, ${3:20}]}",
+      "  align={'${4:middle}'}",
+      "  justify={'${5:space-between}'}",
+      ">",
+      "  <Col span={${6:12}}></Col>",
+      "  <Col span={${6:12}}></Col>",
+      "</Row>"
+    ],
+    "description": "RowAndCol",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Antd Spin Wrapper": {
+    "prefix": "<Spin",
+    "body": ["<Spin spinning={${1:isLoading}}>", "  ", "</Spin>"],
+    "description": "Antd Spin Wrapper",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Div Wrapper": {
+    "prefix": "<div",
+    "body": [
+      "<div className={styles['${1:component}-wrapper']}>",
+      "  ",
+      "</div>"
+    ],
+    "description": "create useFormatMessage",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Typography Wrapper": {
+    "prefix": "<Typography",
+    "body": [
+      "<Typography level={'${1:body}1'} wrapElement={'${2:div}'}>",
+      "  ",
+      "</Typography>"
+    ],
+    "description": "Typography Wrapper",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Antd Button": {
+    "prefix": "<Button",
+    "body": [
+      "<Button className={styles['${1:xx}-btn']} type={'${2:primary}'} onClick={handle${3:}}>",
+      "  {formatMessage({ id: '${4:}' })}",
+      "</Button>"
+    ],
+    "description": "Antd Button",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
+  "Admin Modal": {
+    "prefix": "Modal",
+    "body": [
+      "import React, { useMemo } from 'react';",
+      "import { useBoolean, useMemoizedFn } from 'ahooks';",
+      "import { useIntl } from 'react-intl';",
+      "import { Modal, message, Form } from 'iglooform';",
+      "",
+      "import styles from './index.less';",
+      "",
+      "interface ${1:Component}ModalProps {",
+      "  visible: boolean;",
+      "  /**关闭 visible 的函数 */",
+      "  onClose: () => void;",
+      "  /**提交成功后的回调，一般是刷新页面 */",
+      "  onSuccess: () => void;",
+      "}",
+      "",
+      "/**",
+      " * $1 Modal",
+      " */",
+      "const $1Modal: React.FC<$1ModalProps> = (props: $1ModalProps) => {",
+      "  const { visible, onClose, onSuccess } = props;",
+      "  const form = Form.useForm();",
+      "  const { formatMessage } = useIntl();",
+      "",
+      "  const [",
+      "    isSubmitting,",
+      "    {",
+      "      setTrue: handleSetIsSubmittingTrue,",
+      "      setFalse: handleSetIsSubmittingFalse,",
+      "    },",
+      "  ] = useBoolean(false);",
+      "",
+      "  const btnCommonProps = useMemo(",
+      "    () => ({",
+      "      type: 'primary',",
+      "      style: {",
+      "        width: '160px',",
+      "      },",
+      "    }),",
+      "    [],",
+      "  );",
+      "",
+      "  const handleSubmit$1Modal = useMemoizedFn(async () => {",
+      "    const formValues = await form.validateFields();",
+      "    const body = {};",
+      "    handleSetIsSubmittingTrue();",
+      "    postData(body)",
+      "      .then((res) => {",
+      "        if (res) {",
+      "          message.success(",
+      "            // todo-licy i18n",
+      "            formatMessage({",
+      "              id: '${6}',",
+      "            }),",
+      "          );",
+      "          onSuccess();",
+      "        }",
+      "      })",
+      "      .finally(() => handleSetIsSubmittingFalse());",
+      "  });",
+      "",
+      "  const handleCancel$1Modal = useMemoizedFn(() => {",
+      "    onClose();",
+      "    handleSetIsSubmittingFalse();",
+      "  });",
+      "",
+      "  return (",
+      "    <Modal",
+      "      // todo-licy i18n",
+      "      title={formatMessage({ id: '${2:title}' })}",
+      "      // todo-licy i18n",
+      "      okText={formatMessage({",
+      "        id: '${3:Submit}',",
+      "      })}",
+      "      // todo-licy i18n",
+      "      cancelText={formatMessage({",
+      "        id: '${4:Cancel}',",
+      "      })}",
+      "      width={${5:800}}",
+      "      visible={visible}",
+      "      onOk={handleSubmit$1Modal}",
+      "      onCancel={handleCancel$1Modal}",
+      "      maskClosable={false}",
+      "      destroyOnClose={true}",
+      "      forceRender={true}",
+      "      closable={true}",
+      "      okButtonProps={{",
+      "        loading: isSubmitting,",
+      "        ...(btnCommonProps as any),",
+      "      }}",
+      "      cancelButtonProps={{",
+      "        ...(btnCommonProps as any),",
+      "      }}",
+      "    ></Modal>",
+      "  );",
+      "};",
+      "",
+      "export default $1Modal;",
+      ""
+    ],
+    "description": "Admin Modal",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  }
+}
