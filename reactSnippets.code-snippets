@@ -248,6 +248,16 @@
     "description": "RowAndCol",
     "scope": "javascript,javascriptreact,typescript,typescriptreact"
   },
+  "Antd Space Wrapper": {
+    "prefix": "<Space",
+    "body": [
+      "<Space direction={'${1:vertical}'} size={${2:10}}>",
+      "  ",
+      "</Space>"
+    ],
+    "description": "Antd Space Wrapper",
+    "scope": "javascript,javascriptreact,typescript,typescriptreact"
+  },
   "Antd Spin Wrapper": {
     "prefix": "<Spin",
     "body": ["<Spin spinning={${1:isLoading}}>", "  ", "</Spin>"],
