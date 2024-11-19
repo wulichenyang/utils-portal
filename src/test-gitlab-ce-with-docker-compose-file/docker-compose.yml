@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    hostname: 'gitlab'
+    ports:
+      - '8080:80'       # HTTP
+      - '8443:443'     # HTTPS
+      - '222:22'        # SSH
+    environment:
+      - TZ=Asia/Shanghai   # 设置时区为上海
+      - GITLAB_OMNIBUS_CONFIG="external_url 'localhost:3000';
+        gitlab_rails['gitlab_shell_ssh_port'] = 222;"
+    volumes:
+      - ./gitlab-config:/etc/gitlab
+      - ./gitlab-logs:/var/log/gitlab
+      - ./gitlab-data:/var/opt/gitlab
+    restart: always
+
+volumes:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:

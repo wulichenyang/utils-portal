@@ -1,0 +1,120 @@
+# 定义阶段
+stages:
+  - build
+  - deploy
+
+# 定义变量
+variables:
+  DOCKER_IMAGE: registry.gitlab.com/<your-gitlab-username>/<your-project-name>:latest
+  WEBSITE_URL_DEV: http://your-dev-url
+  WEBSITE_URL_QA: http://your-qa-url
+  WEBSITE_URL_STAGING: http://your-staging-url
+  WEBSITE_URL_ONLINE: http://your-online-url
+# 下面设置中 $CI_ 开头的变量需要到 Gitlab CI/CD Setting 的 Variables 处添加
+# $CI_REGISTRY_PASSWORD
+# $CI_REGISTRY_USER
+# $CI_REGISTRY
+
+# 开发分支构建
+build-dev:
+  stage: build
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMAGE --build-arg ENV=dev .
+  only:
+    - dev
+
+# QA 分支构建
+build-qa:
+  stage: build
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMAGE --build-arg ENV=qa .
+  only:
+    - qa
+
+# Staging 分支构建
+build-staging:
+  stage: build
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMAGE --build-arg ENV=staging .
+  only:
+    - staging
+
+# 主分支构建
+build-production:
+  stage: build
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMAGE --build-arg ENV=production .
+  only:
+    - main
+
+# 开发分支部署
+deploy-dev:
+  stage: deploy
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker push $DOCKER_IMAGE
+  environment:
+    name: dev
+    url: $WEBSITE_URL_DEV
+  only:
+    - dev
+
+# QA 分支部署
+deploy-qa:
+  stage: deploy
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker push $DOCKER_IMAGE
+  environment:
+    name: qa
+  url: $WEBSITE_URL_QA
+  only:
+    - qa
+
+# Staging 分支部署
+deploy-staging:
+  stage: deploy
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker push $DOCKER_IMAGE
+  environment:
+    name: staging
+    url: $WEBSITE_URL_STAGING
+  only:
+    - staging
+
+# 主分支部署
+deploy-production:
+  stage: deploy
+  image: docker:20.10.24
+  services:
+    - docker:dind
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+    - docker push $DOCKER_IMAGE
+  environment:
+    name: production
+    url: $WEBSITE_URL_ONLINE
+  only:
+    - main
