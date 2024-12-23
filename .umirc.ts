@@ -15,7 +15,7 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/home',
+      redirect: '/todo-list',
     },
     {
       name: '首页',
